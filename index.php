@@ -35,11 +35,15 @@ if (empty($_SESSION['last_move'])) {
 if (empty($_SESSION['last_player'])) {
   $_SESSION['last_player'] = "_";
 }
+if (empty($_SESSION['turn'])) {
+  $_SESSION['turn'] = 0;
+}
 
 if (isset($_GET['move'])) {
   $_SESSION['grille'][$_GET['move']] = "X";
   $_SESSION['last_player'] = "human";
   $_SESSION['last_move'] = $_GET['move'];
+  $_SESSION['turn'] = $_SESSION['turn']+1;
 }
 
 
@@ -55,6 +59,7 @@ if (getWinner($_SESSION['grille'])) {
 if (!empty(IACanWin($_SESSION['grille']))) {
   $_SESSION['grille'][IACanWin($_SESSION['grille'])] = "O";
   $_SESSION['last_player'] = "ia";
+  $_SESSION['turn'] = $_SESSION['turn']+1;
   if (getWinner($_SESSION['grille'])) {
     echo '<br> On a un gagnant <br>';
     grille($_SESSION['grille']);
@@ -64,12 +69,14 @@ if (!empty(IACanWin($_SESSION['grille']))) {
   // si le joueur peut gagner => le bloquer
   $_SESSION['grille'][playerCanWin($_SESSION['grille'])] = "O";
   $_SESSION['last_player'] = "ia";
+  $_SESSION['turn'] = $_SESSION['turn']+1;
 } else {
   // sinon => chercher le meilleur placement
-  
+
   // mais pour l'instant joue au hasard.
   if ($_SESSION['last_player'] == "human") {
-    $_SESSION['grille'][playInFree($_SESSION['grille'])] = "O";
+    $_SESSION['grille'][checkBestMove($_SESSION['grille'], $_SESSION['turn'])] = "O";
+    $_SESSION['turn'] = $_SESSION['turn']+1;
   }
 }
 
@@ -78,7 +85,7 @@ if (!empty(IACanWin($_SESSION['grille']))) {
 // Debug : affichage du tableau
 debug($_SESSION);
 grille($_SESSION['grille']);
-
+// checkBestMove($_SESSION['grille'])
 
 ?>
 

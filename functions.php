@@ -125,5 +125,34 @@ function playInFree($grille) {
   }
 }
 
+function checkBestMove($grille, $turn) {
+  if ($turn == 1) {
+    if ($grille['b2'] == "X") {
+      return "a1";
+    } else {
+      return "b2";
+    }
+  } elseif ($turn == 3) {
+      if (($grille['a1'] == "X" && $grille['c3'] == "X") || ($grille['a3'] == "X" && $grille['c1'] == "X")) {
+        return "a2";
+      } elseif ($grille['a1'] == "X" && $grille['c2'] == "X") {
+        return "c1";
+      } else {
+        foreach ($grille as $key => $value) {
+          if ($value == "_") {
+            return $key;
+          }
+        }
+      }
+  } else {
+    //provisoire a retirer :
+    foreach ($grille as $key => $value) {
+      if ($value == "_") {
+        return $key;
+      }
+    }
+  }
+}
+
 
  ?>
