@@ -137,7 +137,12 @@ function checkBestMove($grille, $turn) {
         return "a2";
       } elseif ($grille['a1'] == "X" && $grille['c2'] == "X") {
         return "c1";
-      } else {
+      } elseif ($grille['a3'] == "X" && $grille['c2'] == "X") {
+        return "c3";
+      } elseif ($grille['c1'] == "X" && $grille['b3'] == "X") {
+        return "c3";
+      }
+      else {
         foreach ($grille as $key => $value) {
           if ($value == "_") {
             return $key;
